@@ -14,7 +14,7 @@ function Start () {
 	cablen = 0.1;
 	isHidden = true;
 	isFinished = false;
-	scrollSpeed = 0.1;
+	scrollSpeed = 0.2;
 	rend = GetComponent.<Renderer>();
 }
 

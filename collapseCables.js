@@ -10,6 +10,7 @@ public var allBoxes: Transform[];
 public var mule: Transform;
 public var bringMule: boolean;
 public var countdown: boolean;
+public var startVanish: boolean;
 
 
 function Start () {
@@ -24,6 +25,7 @@ function Start () {
 		allMuleCables[n].GetComponent.<Rigidbody>().mass = 5;
 	}
 	bringMule = false;
+	startVanish = false;
 	//transform.GetComponent(Rigidbody).freezePosition = true;
 	//transform.GetComponent(Rigidbody).freezeRotation = true;
 }
@@ -60,6 +62,31 @@ function Update () {
 			connectMule();
 		}
 	}
+	if (startVanish == true)
+	{
+		for(var q=0; q<vanishingObjects.length; q++)
+		{
+			
+			var rend = vanishingObjects[q].GetComponent.<Renderer>();
+			if (vanishingObjects[q].name != "windows" || rend.material.color.a > 0.1)
+			{
+				for (var mat in rend.materials) {
+    			rend.material.color.a -= 0.005;
+    		}
+    		
+    		if (rend.material.color.a == 0)
+    		{
+    			startVanish = false;
+    		}
+    	
+ 		}
+		
+		//vanishingObjects[q].position.x = 100;
+	}
+	
+	
+	}
+	
 }
 
 function Collapse()
@@ -111,16 +138,9 @@ function Mulify()
 		floatingObjects[p].transform.GetComponent(MeshCollider).enabled = false;
 	}
 	
-	for(var q=0; q<vanishingObjects.length; q++)
-	{
-		
-		//var rend = vanishingObjects[q].GetComponent.<Renderer>();
-		//rend.material.color.a = 0.1;
-		
-		vanishingObjects[q].position.x = 100;
-	}
 	
 	bringMule = true;
+	startVanish = true;
 }
 
 function backgroundSound()
