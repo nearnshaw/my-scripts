@@ -1,7 +1,7 @@
 ﻿#pragma strict
 
 public var myBody: Rigidbody;
-public var allCables: Transform[];
+public var allCables: GameObject[];
 public var allMuleCables: Transform[];
 public var floatingObjects: Transform[];
 public var vanishingObjects: Transform[];
@@ -10,6 +10,7 @@ public var allBoxes: Transform[];
 public var mule: Transform;
 public var bringMule: boolean;
 public var countdown: boolean;
+public var startVanish: boolean;
 
 
 function Start () {
@@ -24,20 +25,27 @@ function Start () {
 		allMuleCables[n].GetComponent.<Rigidbody>().mass = 5;
 	}
 	bringMule = false;
+	startVanish = false;
 	//transform.GetComponent(Rigidbody).freezePosition = true;
 	//transform.GetComponent(Rigidbody).freezeRotation = true;
 }
 
 function Update () {
-	if (Input.GetKeyDown("x")){
-		for(var i=0; i<floatingObjects.length; i++)
-			{
-				floatingObjects[i].transform.GetComponent(Rigidbody).useGravity = false;
-				countdown = true;
-			}
-		Collapse();
-
+	
+	if (countdown !=true)
+	{
+		if (Input.GetKeyDown("x")){
+			GoRed();
+		}
 	}
+	else 
+	{
+		if (Input.GetKeyDown("c")){
+			Collapse();
+			GetComponent(audioPlayer).myStop();
+		}
+	}
+	
 	
 	if(countdown == true)
 	{
@@ -60,23 +68,59 @@ function Update () {
 			connectMule();
 		}
 	}
+	if (startVanish == true)
+	{
+		for(var q=0; q<vanishingObjects.length; q++)
+		{
+			
+			var rend = vanishingObjects[q].GetComponent.<Renderer>();
+			if (vanishingObjects[q].name != "windows" || rend.material.color.a > 0.1)
+			{
+				for (var mat in rend.materials) {
+    			rend.material.color.a -= 0.005;
+    		}
+    		
+    		if (rend.material.color.a == 0)
+    		{
+    			startVanish = false;
+    		}
+    	
+ 		}
+		
+		//vanishingObjects[q].position.x = 100;
+	}
+	
+	
+	}
+	
 }
 
-function Collapse()
+function GoRed()
 {
-	
-				
+	countdown = true;		
 	GetComponent(audioPlayer).PlaySound(3);
+	for(var i=0; i<floatingObjects.length; i++)
+	{
+		floatingObjects[i].transform.GetComponent(Rigidbody).useGravity = false;
+	}
 	//transform.GetComponent(Rigidbody).freezePosition = false;
 	myLight1.color = Color.red;
 	//myLight2.intensity = 0.1;
 	yield WaitForSeconds(30);
+	if (countdown != false)
+	{
+		Collapse();
+	}
+}
+	
+			
+function Collapse()
+{
 	countdown = false;
 	GetComponent(audioPlayer).PlaySound(9);
 	for(var i=0; i<allCables.length; i++)
 	{
 		allCables[i].GetComponent.<Rigidbody>().constraints = RigidbodyConstraints.None;
-		//transform.GetComponent(Rigidbody).freezeRotation = false;
 		allCables[i].transform.GetComponent(Rigidbody).useGravity = true;
 	}
 	
@@ -111,16 +155,16 @@ function Mulify()
 		floatingObjects[p].transform.GetComponent(MeshCollider).enabled = false;
 	}
 	
-	for(var q=0; q<vanishingObjects.length; q++)
-	{
-		
-		//var rend = vanishingObjects[q].GetComponent.<Renderer>();
-		//rend.material.color.a = 0.1;
-		
-		vanishingObjects[q].position.x = 100;
-	}
 	
 	bringMule = true;
+	startVanish = true;
+	
+	
+	yield WaitForSeconds(2);
+	for(var w=0; w<allCables.length; w++)
+	{
+		Destroy(allCables[w]);
+	}
 }
 
 function backgroundSound()

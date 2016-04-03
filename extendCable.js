@@ -14,7 +14,7 @@ function Start () {
 	cablen = 0.1;
 	isHidden = true;
 	isFinished = false;
-	scrollSpeed = 0.1;
+	scrollSpeed = 0.14;
 	rend = GetComponent.<Renderer>();
 }
 
@@ -69,7 +69,7 @@ function Update () {
 			audio.Play();
 		}
 		
-		if (myTarget.name == "mulesoft")
+		if (myTarget.name == "mulesoft") //&& isFinished == true)
 		{
 			textureOffset = Time.time * scrollSpeed;
 			rend.material.mainTextureOffset = new Vector2 (textureOffset, 0);
