@@ -69,7 +69,7 @@ function Update () {
 			audio.Play();
 		}
 		
-		if (myTarget.name == "mulesoft" && isFinished == true)
+		if (myTarget.name == "mulesoft") //&& isFinished == true)
 		{
 			textureOffset = Time.time * scrollSpeed;
 			rend.material.mainTextureOffset = new Vector2 (textureOffset, 0);
