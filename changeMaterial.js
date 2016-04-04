@@ -70,7 +70,8 @@ function Update () {
 				if ((Vector3.Angle(transform.position - myPlayer.position, myPlayer.forward) < lookingAngle) && (myPlayer.position.z > -0.5 )) 
 				{
 					isLooking = true;
-					rend.material.color = Color.Lerp(mainColor, Color.red, 0.5);
+					//rend.material.color = Color.Lerp(mainColor, Color.red, 0.5);
+					rend.material.color = Color(0.6, 0.1, 0.1, 0.3);
 					//rend.material.color = Color.red;
 				}
 			}
