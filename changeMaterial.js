@@ -14,6 +14,7 @@ public var lookCounterTotal: int;
 public var myHalo: Object;
 public var mainColor: Color;
 public var allBoxes: Transform[];
+public var muleOn: boolean;
 
 
 function Start () {
@@ -22,6 +23,7 @@ function Start () {
 	rend.enabled = true;
 	isVisible = false;
 	isReady = false;
+	muleOn = false;
 	if (transform.name != "mulesoft")
 	{
 		boxHeight = transform.position;
@@ -121,6 +123,10 @@ function Update () {
 		audio.Play();
 		//myPlayer.GetComponent(audioPlayer).PlaySound(0);
 
+	}
+	else if (isReady == true && muleOn == false)
+	{
+		
 	}
 	
 }

@@ -51,7 +51,7 @@ function Update () {
 	{
 		for(var p=0; p<floatingObjects.length; p++)
 		{
-					floatingObjects[p].Translate(0,0.003,0);
+					floatingObjects[p].Translate(0,0.005,0);
 		}
 	}
 	if (bringMule == true)
@@ -93,6 +93,26 @@ function Update () {
 	
 	}
 	
+	if ( countdown != true)
+	{
+		var doneCount = 0;
+		var fallingCount = 0;
+		for(var cab=0; cab<allCables.length; cab++)
+		{
+			if (allCables[cab].GetComponent.<extendCable>().isFinished == true;)
+			{
+				doneCount =+1;
+			}
+			if (allCables[cab].GetComponent.<extendCable>().isFalling == true;)
+			{
+				fallingCount =+1;
+			}
+		}
+		if (doneCount + 2 > allCables.length && falling > 0)
+		{
+		 GoRed();
+		}
+	}
 }
 
 function GoRed()
@@ -129,7 +149,7 @@ function Collapse()
 		floatingObjects[j].transform.GetComponent(Rigidbody).useGravity = true;
 	}
 	
-	yield WaitForSeconds(6);
+	yield WaitForSeconds(8);
 	Mulify();
 }
 
@@ -142,7 +162,8 @@ function Mulify()
 		var myHalo = allBoxes[k].GetComponent("Halo");
 		//myHalo.GetType().GetProperty("enabled").SetValue(myHalo, true, null);
 		//myHalo.GetType().GetProperty("size").SetValue(myHalo, 1.5, null);			
-		allBoxes[k].transform.GetComponent(BoxCollider).enabled = false;		
+		allBoxes[k].transform.GetComponent(BoxCollider).enabled = false;
+		allBoxes[k].GetComponent(changeMaterial).muleOn = true;
 	}	
 	for(var l=0; l<allCables.length; l++)
 	{

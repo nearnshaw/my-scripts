@@ -9,11 +9,14 @@ var isFinished: boolean;
 public var rend: Renderer;
 public var scrollSpeed : float;
 public var textureOffset: float;
+public var willFall: boolean;
+public var isFalling: boolean;
 
 function Start () {
 	cablen = 0.1;
 	isHidden = true;
 	isFinished = false;
+	isFalling = false;
 	scrollSpeed = 0.14;
 	rend = GetComponent.<Renderer>();
 }
@@ -47,7 +50,8 @@ function Update () {
 	}
 	if (isHidden == false)
 	{
-		if (fullLen > cablen) {
+		if (fullLen > cablen) 
+		{
 			
 			if(myTarget.name == "mulesoft")	
 			{
@@ -68,6 +72,18 @@ function Update () {
 		 	var audio: AudioSource = GetComponent.<AudioSource>();
 			audio.Play();
 		}
+		else if (willFall == true)
+		{
+			cableFall();
+			if (isFalling == true)
+			{	
+				var tremble = Random.Range(-0.01, 0.01);
+				transform.Translate(tremble,tremble,0);
+			}
+		}
+		
+		
+		
 		
 		if (myTarget.name == "mulesoft") //&& isFinished == true)
 		{
@@ -78,4 +94,22 @@ function Update () {
 	}
 	
 	
+}
+
+function cableFall()
+{
+	//var myDelay = WaitForSeconds(Random.Range(15,50));
+	var myDelay = 25;
+	yield WaitForSeconds(myDelay);
+	var audio: AudioSource = GetComponent.<AudioSource>();
+	audio.Play();
+	isFalling = true;
+	willFall = false;
+	yield WaitForSeconds(4);
+	GetComponent.<Rigidbody>().constraints = RigidbodyConstraints.None;
+	transform.GetComponent(Rigidbody).useGravity = true;
+	transform.GetComponent(Rigidbody).AddForce(0, -1, 0, ForceMode.Force);
+	myTarget.transform.GetComponent(BoxCollider).enabled = false;
+	//yield WaitForSeconds(1);
+	myOrigin.transform.GetComponent(BoxCollider).enabled = false;
 }
