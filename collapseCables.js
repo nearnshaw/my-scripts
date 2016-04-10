@@ -97,18 +97,18 @@ function Update () {
 	{
 		var doneCount = 0;
 		var fallingCount = 0;
-		for(var cab=0; cab<allCables.length; cab++)
+		for(var cab=0; cab < allCables.length; cab++)
 		{
-			if (allCables[cab].GetComponent.<extendCable>().isFinished == true;)
+			if (allCables[cab].GetComponent.<extendCable>().isFinished == true)
 			{
-				doneCount =+1;
+				doneCount += 1;
 			}
-			if (allCables[cab].GetComponent.<extendCable>().isFalling == true;)
+			if (allCables[cab].GetComponent.<extendCable>().isFalling == true)
 			{
-				fallingCount =+1;
+				fallingCount += 1;
 			}
 		}
-		if (doneCount + 2 > allCables.length && falling > 0)
+		if (doneCount + 2 > allCables.length && fallingCount > 0)
 		{
 		 GoRed();
 		}
